@@ -17,7 +17,7 @@ class PpmToGdlApp < UserChoices::Command
     
     def initialize()
         super
-        @controller = ppmtogdlController.new
+        @controller = PpmToGdlController.new
     end
     
     
@@ -37,15 +37,15 @@ class PpmToGdlApp < UserChoices::Command
         }
         
         # Switches
-        builder.add_choice(:aswitch, :type=>:boolean, :default=>false) { |command_line|
-            command_line.uses_switch("-a", "--aswitch",
-                                    "Switch description.")
+        builder.add_choice(:verbose, :type=>:boolean, :default=>false) { |command_line|
+            command_line.uses_switch("-v", "--verbose",
+                                    "Turn on verbose output.")
         }
         
         # Options
-        builder.add_choice(:company, :type=>:string) { |command_line|
-            command_line.uses_option("-c", "--company ARG",
-                                    "Only generate PPMs for XML elements containing ARG in company attribute.")
+        builder.add_choice(:customer, :type=>:string) { |command_line|
+            command_line.uses_option("-c", "--customer ARG",
+                                    "Only generate PPMs for XML elements containing ARG in customer attribute.")
         }
         
     end # def add_choices
@@ -56,9 +56,12 @@ class PpmToGdlApp < UserChoices::Command
     def execute
       $LOG.debug "PpmToGdlApp::execute"
 
-      if(@user_choices[:company])
-        @controller.setCompany(@user_choices[:company])
-        return
+      if(@user_choices[:customer])
+        @controller.setCompany(@user_choices[:customer])
+      end
+      
+      if(@user_choices[:verbose])
+        @controller.setVerbose(@user_choices[:verbose])
       end
       
       if(@user_choices[:cmdArg].empty?) # If no cmd line arg...
@@ -66,7 +69,7 @@ class PpmToGdlApp < UserChoices::Command
         return
       end
       
-      result = @controller.doSomethingWithCmdLineArg(@user_choices[:cmdArg])
+      result = @controller.setFilenames(@user_choices[:cmdArg])
       
       @controller.doSomething()
     end # def execute
