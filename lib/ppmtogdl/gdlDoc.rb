@@ -21,17 +21,16 @@ require 'date'
 class GdlDoc
 	
   attr_reader :context
-  attr_reader :srcFile
+  attr_reader :srcPath
   attr_reader :rootDir
 
   
 
 
-	def initialize(srcFile, rootDir, ctx)
-    $LOG.debug "GdlDoc::initialize( #{srcFile}, #{rootDir} )"
+	def initialize(srcPath, ctx)
+    $LOG.debug "GdlDoc::initialize( #{srcPath}, ctx )"
 		super()
-		@srcFile			= srcFile
-		@rootDir 			= rootDir
+		@srcPath			= srcPath
 		@context 			= ctx
 	end
 	
@@ -88,18 +87,25 @@ class GdlDoc
 #------------------------------------------------------------------------------------------------------------#
 	def generate()
     $LOG.debug "GdlDoc::generate()"
-		if ($DEBUG)
+		destDir = @context.options["destdir"]
+		destFile = @context.options["destfile"]
+		if(nil == destFile || destFile.empty?)
+			destFile = File.basename(@srcPath, ".xml") + ".gdl"
+		end
+		
+		#if ($DEBUG)
 			puts "generate:"
-			puts "       source: #{@srcFile}"
-			puts "      rootDir: #{@rootDir}"
+			puts "   sourcePath: #{@srcPath}"
+			puts "      destDir: #{destDir}"
+			puts "     destFile: #{destFile}"
 			puts "      context: #{@context}"
-		end # if $DEBUG
+		#end # if $DEBUG
 		
 		tpl = GdlTemplate.new
 		
-		genFile = "#{@rootDir}/#{@srcFile}.gdl"
+		genFile = File.join(destDir, destFile)	# "#{@rootDir}/#{File.basename(@srcPath)}.gdl"
 		
-		createOutdir(@rootDir)
+		createOutdir(destDir)
 
 		misc = ""
 		
@@ -109,7 +115,7 @@ class GdlDoc
 		
 		File.open("#{genFile}", "w") do |ofile|
 		
-			ofile << tpl.fileHeader(@srcFile, currentDate(), misc )
+			ofile << tpl.fileHeader(destFile, currentDate(), misc )
 
 			ofile << tpl.sectionComment("PPM Definitions")
 
@@ -139,12 +145,12 @@ class GdlDoc
     
 		if ($DEBUG)
 			puts "generateRenameList:"
-			puts "       source: #{@srcFile}"
+			puts "       source: #{@srcPath}"
 			puts "      rootDir: #{@rootDir}"
 			puts "      context: #{@context}"
 		end # if $DEBUG
 		
-		genFile = "#{@rootDir}/#{@srcFile}.rename.csv"
+		genFile = "#{@rootDir}/#{@srcPath}.rename.csv"
 		
 		createOutdir(@rootDir)
 

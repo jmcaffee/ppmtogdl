@@ -15,16 +15,16 @@ class PpmToGdlController
 
   attr_accessor :verbose
   attr_reader   :customer
-  attr_reader   :srcFile
-  attr_reader   :destFile
+  attr_reader   :srcPath
+  attr_reader   :destPath
     
   def initialize()
     $LOG.debug "PpmToGdlController::initialize"
     @cfg = PpmToGdlCfg.new.load
     @verbose = false
     @customer = ""
-    @srcFile = ""
-    @destFile = ""
+    @srcPath = ""
+    @destPath = ""
   end
   
 
@@ -34,8 +34,20 @@ class PpmToGdlController
     options["customer"] = @customer
     options["verbose"]  = @verbose
       
+	destFile = ""
+	destFile = File.basename(@destPath) unless File.directory?(@destPath)
+	if(!destFile.empty?)
+		options["destfile"] = destFile
+	end
+	destDir  = @destPath
+	destDir  = File.dirname(@destPath) unless File.directory?(@destPath)
+	if(destDir.length() < 1)
+		destDir = Dir.getwd()
+	end
+	options["destdir"] = destDir
+	
     docBuilder = GdlDocBuilder.new(options)
-    docBuilder.createDocument(@srcFile, Dir.getwd())
+    docBuilder.createDocument(@srcPath)
     
   end
       
@@ -54,8 +66,11 @@ class PpmToGdlController
   
   def setFilenames(arg)
     $LOG.debug "PpmToGdlController::setFilenames( #{arg} )"
-    @srcFile = arg[0]
-    @destFile = arg[1]
+    @srcPath  = arg[0]
+    @destPath = arg[1]
+	
+	@srcPath  = KtCommon.formatPath(@srcPath, :unix)
+	@destPath = KtCommon.formatPath(@destPath, :unix)
   end
       
   

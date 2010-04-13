@@ -42,20 +42,20 @@ class GdlDocBuilder
 #-------------------------------------------------------------------------------------------------------------#
 # createDocument - create a GDL document from an XML document
 #
-# srcFile	- XML source file
+# srcPath	- XML source file
 #	rootDor	- root directory
 #
 #------------------------------------------------------------------------------------------------------------#
-	def createDocument(srcFile, rootDir)
-    $LOG.debug "GdlDocBuilder::createDocument( #{srcFile}, #{rootDir} )"
+	def createDocument(srcPath)
+    $LOG.debug "GdlDocBuilder::createDocument( #{srcPath} )"
 
 		# Setup context object builder
 		ctxBuilder = ContextParser.new(@context)
 		ctxBuilder.setFlag(@options)
 
-		statusMsg "Creating context based on src file [ #{srcFile} ]."
+		statusMsg "Creating context based on src file [ #{srcPath} ]."
 
-		ctxBuilder.parse(srcFile, rootDir)
+		ctxBuilder.parse(srcPath)
 
 		printMetrics(@context)
 		
@@ -85,7 +85,7 @@ class GdlDocBuilder
 		# Create output file and output src.
 		statusMsg "Generating document."
 		
-		gdlDoc = GdlDoc.new(srcFile, rootDir, @context)
+		gdlDoc = GdlDoc.new(srcPath, @context)
 		gdlDoc.setOptions(@options)
 		
 		genFile = gdlDoc.generate
