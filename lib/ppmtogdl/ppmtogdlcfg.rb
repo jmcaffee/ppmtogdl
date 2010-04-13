@@ -33,7 +33,11 @@ class PpmToGdlCfg < KtCfg::CfgFile
   # returns:: a hash containing configuration info.
   def load
     $LOG.debug "PpmToGdlCfg::load"
-    @cfg = read("ppmtogdlcfg.yml")
+    begin
+		@cfg = read("ppmtogdlcfg.yml")
+	rescue
+		# Nothing to read. Leave the defaults.
+	end
   end
   
   
