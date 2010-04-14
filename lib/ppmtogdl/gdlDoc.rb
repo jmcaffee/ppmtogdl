@@ -22,7 +22,6 @@ class GdlDoc
 	
   attr_reader :context
   attr_reader :srcPath
-  attr_reader :rootDir
 
   
 
@@ -87,8 +86,8 @@ class GdlDoc
 #------------------------------------------------------------------------------------------------------------#
 	def generate()
     $LOG.debug "GdlDoc::generate()"
-		destDir = @context.options["destdir"]
-		destFile = @context.options["destfile"]
+		destDir = @context.options[:destdir]
+		destFile = @context.options[:destfile]
 		if(nil == destFile || destFile.empty?)
 			destFile = File.basename(@srcPath, ".xml") + ".gdl"
 		end

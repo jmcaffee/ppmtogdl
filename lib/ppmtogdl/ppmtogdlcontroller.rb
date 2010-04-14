@@ -37,14 +37,14 @@ class PpmToGdlController
 	destFile = ""
 	destFile = File.basename(@destPath) unless File.directory?(@destPath)
 	if(!destFile.empty?)
-		options["destfile"] = destFile
+		options[:destfile] = destFile
 	end
 	destDir  = @destPath
 	destDir  = File.dirname(@destPath) unless File.directory?(@destPath)
 	if(destDir.length() < 1)
 		destDir = Dir.getwd()
 	end
-	options["destdir"] = destDir
+	options[:destdir] = destDir
 	
     docBuilder = GdlDocBuilder.new(options)
     docBuilder.createDocument(@srcPath)
