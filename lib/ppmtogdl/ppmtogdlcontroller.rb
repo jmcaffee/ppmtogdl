@@ -69,8 +69,8 @@ class PpmToGdlController
     @srcPath  = arg[0]
     @destPath = arg[1]
 	
-	@srcPath  = KtCommon.formatPath(@srcPath, :unix)
-	@destPath = KtCommon.formatPath(@destPath, :unix)
+	@srcPath  = File.rubypath(@srcPath)
+	@destPath = File.rubypath(@destPath)
   end
       
   

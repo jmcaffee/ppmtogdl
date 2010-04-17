@@ -25,7 +25,7 @@ class PpmToGdlCfg < KtCfg::CfgFile
   
   def setDefaults
     $LOG.debug "PpmToGdlCfg::setDefaults"
-    @cfg[:appPath] = formatPath(File.join(ENV["LOCALAPPDATA"], "ppmtogdl"), :unix)
+    @cfg[:appPath] = File.rubypath(File.join(ENV["LOCALAPPDATA"], "ppmtogdl"))
   end
   
   
