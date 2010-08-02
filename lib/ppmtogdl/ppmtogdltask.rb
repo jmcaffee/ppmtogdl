@@ -8,15 +8,20 @@
 ##############################################################################
 
 require 'ppmtogdl'
+
+include PpmToGdl
+
 class PpmToGdlTask
 
 	def execute(customer, srcPath, destPath, verbose=false)
 		filenames = [srcPath, destPath]
+		raise "Missing source file path." unless (! srcPath.nil? && !srcPath.empty?)
+		raise "Missing destination file path." unless (! destPath.nil? && !destPath.empty?)
 		
 		app = PpmToGdlController.new
-		app.setCompany(customer)
+		app.customer = customer
 		app.setFilenames(filenames)
-		app.setVerbose(verbose)
+		app.verbose = verbose
 		app.doSomething()
 	end
 end # class PpmToGdlTask

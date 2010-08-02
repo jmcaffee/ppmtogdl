@@ -10,6 +10,7 @@
 require 'ppmtogdl'
 require 'user-choices'
 
+include PpmToGdl
 
 class PpmToGdlApp < UserChoices::Command
     include UserChoices
@@ -57,11 +58,11 @@ class PpmToGdlApp < UserChoices::Command
       $LOG.debug "PpmToGdlApp::execute"
 
       if(@user_choices[:customer])
-        @controller.setCompany(@user_choices[:customer])
+        @controller.customer = @user_choices[:customer]
       end
       
       if(@user_choices[:verbose])
-        @controller.setVerbose(@user_choices[:verbose])
+        @controller.verbose = @user_choices[:verbose]
       end
       
       if(@user_choices[:cmdArg].empty?) # If no cmd line arg...
