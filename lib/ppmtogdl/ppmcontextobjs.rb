@@ -21,6 +21,7 @@ module PpmToGdl
 		attr_accessor :varType         # Type attribute - What portion of decision log value comes from: valid values "PRD, CRP, APM
 		attr_accessor :dataType        # DataType attribute -numeric, text, money, etc.
 		attr_accessor :customer
+		attr_accessor :verbose
 		
 		
 		
@@ -32,10 +33,11 @@ module PpmToGdl
 	#		
 	#	end # initialize
 
-		def initialize(name, attributes)
+		def initialize(name, attributes, verbose=false)
 		$LOG.debug "Ppm::initialize( #{name}, #{attributes} )"
 		
-			@name 		= name
+			@verbose  = verbose
+      @name 		= name
 			@alias		= attributes["Name"]
 			@varType	= attributes["Type"]
 			#@dataType = "UNKNOWN"
@@ -43,9 +45,11 @@ module PpmToGdl
 			  
 			@customer  = attributes["Customer"]
 			
-			attributes.each do |k, v|
-				puts "Attrib[ #{k} ]: #{v}"
-			end
+			if(@verbose)
+        attributes.each do |k, v|
+          puts "Attrib[ #{k} ]: #{v}"
+        end
+      end
 			
 			case @varType
 				when 'APM'
