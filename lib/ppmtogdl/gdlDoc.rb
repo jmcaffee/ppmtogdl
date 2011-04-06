@@ -26,7 +26,7 @@ module PpmToGdl
 
 		def initialize(srcPath, ctx)
 		$LOG.debug "GdlDoc::initialize( #{srcPath}, ctx )"
-			super()
+			#super()
 			@srcPath			= srcPath
 			@context 			= ctx
 		end

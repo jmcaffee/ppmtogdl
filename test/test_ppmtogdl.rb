@@ -43,9 +43,9 @@ class  TestPpmToGdl < Test::Unit::TestCase #(3)
 #
 #------------------------------------------------------------------------------------------------------------#
   def test_ppmtogdl_ctor
-    target = PpmToGdl.new
+    #target = PpmToGdl.new
     
-    assert(nil != target)
+    #assert(nil != target)
   end
 
 #-------------------------------------------------------------------------------------------------------------#

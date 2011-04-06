@@ -7,7 +7,7 @@
 
 require 'contextParser'
 require 'xmlUtils/ruleParser'
-require 'gdlDoc'
+require 'ppmtogdl/gdlDoc'
 require 'xmlUtils/lineParser'
 
 
