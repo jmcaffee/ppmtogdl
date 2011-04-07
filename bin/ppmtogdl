@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 ##############################################################################
 # File:: ppmtogdl.rb
 # Purpose:: Utility to ...
@@ -79,6 +80,6 @@ class PpmToGdlApp < UserChoices::Command
 end # class PpmToGdlApp
 
 
-if $0 == __FILE__
+#if $0 == __FILE__
     PpmToGdlApp.new.execute
-end    
+#end    
