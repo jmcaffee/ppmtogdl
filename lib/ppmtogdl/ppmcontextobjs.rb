@@ -83,6 +83,9 @@ module PpmToGdl
 				when 'Text'
 					@dataType = "text"
 					
+				when 'DateTime'
+					@dataType = "datetime"
+					
 			end # dataType
 				
 			
