@@ -1,0 +1,4 @@
+# .gitignore
+pkg/
+buildgem
+buildgem.cmd
