@@ -118,6 +118,8 @@ task :test => [:init] do
     $stderr.puts 'test/unit cannot loaded.  You need Ruby 1.8 or later to invoke this task.'
   end
 
+  TESTDIR = 'test' unless defined? TESTDIR
+
   $LOAD_PATH.unshift("./")
   $LOAD_PATH.unshift(TESTDIR)
   Dir[File.join(TESTDIR, "*.rb")].each {|file| require File.basename(file) }
