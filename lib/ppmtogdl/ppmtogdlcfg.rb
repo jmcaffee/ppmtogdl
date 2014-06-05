@@ -29,7 +29,9 @@ module PpmToGdl
 
     def setDefaults
       $LOG.debug "PpmToGdlCfg::setDefaults"
-      @cfg[:appPath] = File.rubypath(File.join(ENV["LOCALAPPDATA"], "ppmtogdl"))
+      app_path = ENV["LOCALAPPDATA"]
+      app_path ||= ENV["HOME"]
+      @cfg[:appPath] = File.rubypath(File.join(app_path, "ppmtogdl"))
     end
 
     # Load the YAML configuration file.
