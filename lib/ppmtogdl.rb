@@ -9,8 +9,7 @@
 
 require 'find'
 require 'logger'
-require 'win32ole'
-
+require 'bundler/setup'
 
 if(!$LOG)
   $LOG = Logger.new(STDERR)

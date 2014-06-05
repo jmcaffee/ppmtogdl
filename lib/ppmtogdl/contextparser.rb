@@ -7,8 +7,8 @@
 
 require 'rexml/document'
 require 'rexml/streamlistener'
-require 'xmlUtils/dumpListener'
-require 'contextListener'
+require 'xmlutils/dumplistener'
+require 'contextlistener'
 
 
 ##############################################################################

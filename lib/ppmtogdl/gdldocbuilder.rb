@@ -1,14 +1,14 @@
 #
-#	File: gdlDocBuilder.rb
+#	File: gdldocBuilder.rb
 #
 #	This is a guideline document builder
 #	
 #
 
-require 'contextParser'
-require 'xmlUtils/ruleParser'
-require 'ppmtogdl/gdlDoc'
-require 'xmlUtils/lineParser'
+require 'contextparser'
+require 'xmlutils/ruleparser'
+require 'ppmtogdl/gdldoc'
+require 'xmlutils/lineparser'
 
 
 ##############################################################################
