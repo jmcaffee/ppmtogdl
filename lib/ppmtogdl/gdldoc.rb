@@ -6,7 +6,7 @@
 #
 
 require 'ppmcontextobjs'
-require 'xmlutils/gdlTemplate'
+require 'xmlutils/gdltemplate'
 require 'date'
 
 
