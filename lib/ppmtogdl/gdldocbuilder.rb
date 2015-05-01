@@ -1,169 +1,140 @@
+###############################################################################
+# File::    gdldocbuilder.rb
+# Purpose:: GdlDocBuilder class is a builder object for building GDL
+#           source documents.
 #
-#	File: gdldocBuilder.rb
+# Author::    Jeff McAffee 04/30/2015
 #
-#	This is a guideline document builder
-#	
-#
+##############################################################################
 
 require 'xmlutils/ruleparser'
 require 'xmlutils/lineparser'
 
-
-##############################################################################
-# Everything is contained in Module	PpmToGdl
 module PpmToGdl
-	  
-	##########################################################################
-	# GdlDocBuilder class is a builder object for building GDL source documents.
-	class GdlDocBuilder
-		
-		attr_accessor :options
-		attr_accessor :context
-		
+  class GdlDocBuilder
 
+    attr_accessor :options
+    attr_accessor :context
 
-	#-------------------------------------------------------------------------------------------------------------#
-	# initialize - CTor
-	#
-	# options	- Document builder options
-	#
-	#------------------------------------------------------------------------------------------------------------#
-		def initialize(options)
-		$LOG.debug "GdlDocBuilder::initialize( #{options} )"
-			@options 	= options	
-			@context	= PpmContext.new
-			@context.setOptions(@options)
-		end # initialize
-		
-		
+  #-------------------------------------------------------------------------------------------------------------#
+  # initialize - CTor
+  #
+  # options - Document builder options
+  #
+  #------------------------------------------------------------------------------------------------------------#
+    def initialize(options)
+    $LOG.debug "GdlDocBuilder::initialize( #{options} )"
+      @options  = options
+      @context  = PpmContext.new
+      @context.setOptions(@options)
+    end # initialize
 
-		
-	#-------------------------------------------------------------------------------------------------------------#
-	# createDocument - create a GDL document from an XML document
-	#
-	# srcPath	- XML source file
-	#	rootDor	- root directory
-	#
-	#------------------------------------------------------------------------------------------------------------#
-		def createDocument(srcPath)
-		$LOG.debug "GdlDocBuilder::createDocument( #{srcPath} )"
+  #-------------------------------------------------------------------------------------------------------------#
+  # createDocument - create a GDL document from an XML document
+  #
+  # srcPath - XML source file
+  # rootDor - root directory
+  #
+  #------------------------------------------------------------------------------------------------------------#
+    def createDocument(srcPath)
+    $LOG.debug "GdlDocBuilder::createDocument( #{srcPath} )"
 
-			# Setup context object builder
-			ctxBuilder = ContextParser.new(@context)
-			ctxBuilder.setFlag(@options)
+      # Setup context object builder
+      ctxBuilder = ContextParser.new(@context)
+      ctxBuilder.setFlag(@options)
 
-			statusMsg "Creating context based on src file [ #{srcPath} ]."
+      statusMsg "Creating context based on src file [ #{srcPath} ]."
 
-			ctxBuilder.parse(srcPath)
+      ctxBuilder.parse(srcPath)
 
-			printMetrics(@context)
-			
-			
-=begin		
-		statusMsg "Parsing external variable definitions."
+      printMetrics(@context)
+=begin
+    statusMsg "Parsing external variable definitions."
 
-		parseExternalVarDefs(@context)
+    parseExternalVarDefs(@context)
 
 
 
-		statusMsg "Parsing rule data (#{ctxBuilder.context.rules.size.to_s} rules)."
+    statusMsg "Parsing rule data (#{ctxBuilder.context.rules.size.to_s} rules)."
 
-		ruleBuilder = RuleParser.new(@context)
-		ruleBuilder.setFlag(@options)
-		
-		@context.rules.each do |key, rule|
-			rule.src = ruleBuilder.parse(rule.xml)
-			print "."
-		end # rules.each
-		puts
+    ruleBuilder = RuleParser.new(@context)
+    ruleBuilder.setFlag(@options)
+
+    @context.rules.each do |key, rule|
+      rule.src = ruleBuilder.parse(rule.xml)
+      print "."
+    end # rules.each
+    puts
 =end
 
-	#		ctxBuilder.dumpResults
+  #   ctxBuilder.dumpResults
 
+      # Create output file and output src.
+      statusMsg "Generating document."
 
-			# Create output file and output src.
-			statusMsg "Generating document."
-			
-			gdlDoc = GdlDoc.new(srcPath, @context)
-			gdlDoc.setOptions(@options)
-			
-			genFile = gdlDoc.generate
-			
-			statusMsg "Document created: #{genFile}"
+      gdlDoc = GdlDoc.new(srcPath, @context)
+      gdlDoc.setOptions(@options)
 
-			#genFile = gdlDoc.generateRenameList
-			
-			#statusMsg "Rename list document created: #{genFile}"
+      genFile = gdlDoc.generate
 
-		end # createDocument
-		
-		
+      statusMsg "Document created: #{genFile}"
 
-		
-	#-------------------------------------------------------------------------------------------------------------#
-	# statusMsg - output a status message
-	#
-	# msg	- Message to output
-	#
-	#------------------------------------------------------------------------------------------------------------#
-		def statusMsg(msg)
-			
-			puts
-			puts "-} #{msg}"
-			puts
+      #genFile = gdlDoc.generateRenameList
 
-		end # statusMsg
-		
-		
+      #statusMsg "Rename list document created: #{genFile}"
 
-		
-	#-------------------------------------------------------------------------------------------------------------#
-	# printMetrics - Print context metrics
-	#
-	# ctx	- Context to generate metrics from
-	#
-	#------------------------------------------------------------------------------------------------------------#
-		def printMetrics(ctx)
-		$LOG.debug "GdlDocBuilder::printMetrics()"
-			puts "        PPM count: #{ctx.ppms.size.to_s}"
-			
-		end # printMetrics
+    end # createDocument
 
+  #-------------------------------------------------------------------------------------------------------------#
+  # statusMsg - output a status message
+  #
+  # msg - Message to output
+  #
+  #------------------------------------------------------------------------------------------------------------#
+    def statusMsg(msg)
 
+      puts
+      puts "-} #{msg}"
+      puts
 
+    end # statusMsg
 
-	#-------------------------------------------------------------------------------------------------------------#
-	# parseExternalVarDefs - parse predefined GDL variable definition files.
-	#
-	# ctx	- context containing variables to update
-	#
-	#------------------------------------------------------------------------------------------------------------#
-		def parseExternalVarDefs(ctx)
-=begin		
-		vp = LineParser.new											# Parse externally defined GDL variable definition files.
-		vp.parse("R:/common/inc/DPMs.gdl")			# TODO: Allow external var def files to be defined in a config file.
-		vp.parse("R:/common/inc/DSMs.gdl")
-		vp.parse("R:/common/inc/PPMs.gdl")
-		
-		vp.dumpResults if $DEBUG
-		
-		puts "Searching for external PPM definitions." if $DEBUG
-		ctx.ppms.each do |key, val|
-			if (vp.ppms.has_key?(key))
-				ctx.ppms[key] = vp.ppms[key]
-				puts "Found match: #{key}" if $DEBUG
-			end # if vp.ppms
-		end # do
+  #-------------------------------------------------------------------------------------------------------------#
+  # printMetrics - Print context metrics
+  #
+  # ctx - Context to generate metrics from
+  #
+  #------------------------------------------------------------------------------------------------------------#
+    def printMetrics(ctx)
+    $LOG.debug "GdlDocBuilder::printMetrics()"
+      puts "        PPM count: #{ctx.ppms.size.to_s}"
+
+    end # printMetrics
+
+  #-------------------------------------------------------------------------------------------------------------#
+  # parseExternalVarDefs - parse predefined GDL variable definition files.
+  #
+  # ctx - context containing variables to update
+  #
+  #------------------------------------------------------------------------------------------------------------#
+    def parseExternalVarDefs(ctx)
+=begin
+    vp = LineParser.new                     # Parse externally defined GDL variable definition files.
+    vp.parse("R:/common/inc/DPMs.gdl")      # TODO: Allow external var def files to be defined in a config file.
+    vp.parse("R:/common/inc/DSMs.gdl")
+    vp.parse("R:/common/inc/PPMs.gdl")
+
+    vp.dumpResults if $DEBUG
+
+    puts "Searching for external PPM definitions." if $DEBUG
+    ctx.ppms.each do |key, val|
+      if (vp.ppms.has_key?(key))
+        ctx.ppms[key] = vp.ppms[key]
+        puts "Found match: #{key}" if $DEBUG
+      end # if vp.ppms
+    end # do
 =end
-		end # parseExternalVarDefs
-		
-		
-
-		
-	end # class GdlDocBuilder
-
-	
+    end # parseExternalVarDefs
+  end # class GdlDocBuilder
 end # module PpmToGdl
-
-
 

@@ -1,27 +1,20 @@
+###############################################################################
+# File::    gdldoc.rb
+# Purpose:: GdlDoc describes a GDL source document. It is used to create
+#           the final source doc.
 #
-# File: gdlDoc.rb
+# Author::    Jeff McAffee 04/30/2015
 #
-# This class is used to create the final GDL document
-#
-#
+##############################################################################
 
 require 'xmlutils/gdltemplate'
 require 'date'
 
-
-##############################################################################
-# Everything is contained in Module PpmToGdl
 module PpmToGdl
-
-  ##########################################################################
-  # GdlDoc class decsribes a GDL source document
   class GdlDoc
 
     attr_reader :context
     attr_reader :srcPath
-
-
-
 
     def initialize(srcPath, ctx)
     $LOG.debug "GdlDoc::initialize( #{srcPath}, ctx )"
@@ -29,9 +22,6 @@ module PpmToGdl
       @srcPath      = srcPath
       @context      = ctx
     end
-
-
-
 
   #------------------------------------------------------------------------------------------------------------#
   # setOptions - Set configuration option flags
@@ -56,11 +46,7 @@ module PpmToGdl
         when '-v'
           @verbose = true
       end
-
     end
-
-
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # currentDate - Generate today's date string
@@ -71,9 +57,6 @@ module PpmToGdl
       now = DateTime::now()
       return now.strftime("%m/%d/%Y %H:%M:%S")
     end # currentDate
-
-
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # generate - Generate a GDL document
@@ -124,11 +107,7 @@ module PpmToGdl
       end # File.open
 
       return genFile
-
     end # generate
-
-
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # generateRenameList - Generate a CSV rename list
@@ -164,9 +143,6 @@ module PpmToGdl
           end # if name and alias do not match
         end # do
 
-
-
-
                                               # Don't add to list if ruleset is powerlookup.
                                               # Don't add to list if alias and name are identical.
         vars = @context.rulesets.sort {|a, b| a[0].downcase <=> b[0].downcase}
@@ -178,17 +154,10 @@ module PpmToGdl
             end # if not identical
           end # if not PL ruleset
         end # do
-
-
-
       end
 
       return genFile
-
     end # generateRenameList
-
-
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # buildLookupList - Create a listing of lookup definitions from the context
@@ -204,8 +173,6 @@ module PpmToGdl
       @context.lookups.each do |lkName, lkup|
         params = @context.getLookupParamNames(lkName)
         lkups[lkName] = tpl.lookup(lkName, params["xparam"], params["yparam"])
-  #     lkList += tpl.lookup(lkName, params["xparam"], params["yparam"])
-  #     lkList += ";\n"     # Put each lookup on a seperate line
       end # do
 
       sorted = lkups.sort {|a, b| a[0].downcase <=> b[0].downcase}
@@ -215,9 +182,6 @@ module PpmToGdl
 
       return lkList
     end # def buildLookupList
-
-
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # createOutdir - Create a directory if it does not exist
@@ -229,11 +193,7 @@ module PpmToGdl
       if( !File.directory?(outdir) )
         FileUtils.makedirs("#{outdir}")
       end
-
     end # def createOutdir
-
-
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # outputFileHeader - output file header
@@ -256,8 +216,6 @@ EOF
       ofile << header
     end
 
-
-
   #-------------------------------------------------------------------------------------------------------------#
   # definitionHeader - output collected variables to file
   #
@@ -275,11 +233,7 @@ EOF
 EOF
 
       header
-
     end # def definitionHeader
-
-
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # outputPpm - generate a GDL version of a PPM definition based on PPM XML element
@@ -308,14 +262,12 @@ EOF
       varAlias = var.attribute('Alias')
       varName = var.attribute('Name')
 
-
       out = <<EOF
   ppm #{xVarType} #{varSection} p#{varName}   "#{varAlias}";
 EOF
 
       out                                               # Return generated output
     end # outputPpm
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # outputDsm - generate a GDL version of a DSM definition based on DSM XML element
@@ -352,14 +304,12 @@ EOF
       varAlias = var.attribute('Alias')
       varName = var.attribute('Name')
 
-
       out = <<EOF
 decision    dpm #{varType}  #{varName}    "#{varAlias}";
 EOF
 
       out                                               # Return generated output
     end # outputDsm
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # outputDpm - generate a GDL version of a DPM definition based on DPM XML element
@@ -396,16 +346,12 @@ EOF
       varAlias = var.attribute('Alias')
       varName = var.attribute('Name')
 
-
       out = <<EOF
   dpm #{varType}  #{varName}    "#{varAlias}";
 EOF
 
       out                                               # Return generated output
     end # outputDpm
-
-
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # outputRuleInfo - output collected variables to file
@@ -421,9 +367,7 @@ EOF
       @rules.each_value do |rule|
         ofile << outputRule(rule)
       end
-
     end # def outputRuleInfo
-
 
   #-------------------------------------------------------------------------------------------------------------#
   # outputRule - generate a GDL version of a rule definition based on Rule XML element
@@ -435,7 +379,6 @@ EOF
   #------------------------------------------------------------------------------------------------------------#
     def outputRule(rule)
     $LOG.debug "GdlDoc::outputRule()"
-  #   arule = root.elements['//Rule'].to_a  # returns all 1st level rule children elements
       ruleParts = rule.elements.to_a
       puts ""
       puts "Rule Parts:"
@@ -447,15 +390,7 @@ EOF
       visitor.lookupData = @lookupData
 
       return visitor.visit(rule, output)
-
-
     end # outputRule
-
-
-
-
   end # class GdlDoc
-
-
 end # module PpmToGdl
 

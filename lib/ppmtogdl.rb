@@ -3,8 +3,7 @@
 # Purpose:: Include file for PpmToGdl library
 #
 # Author::    Jeff McAffee 03/07/2010
-# Copyright:: Copyright (c) 2010, kTech Systems LLC. All rights reserved.
-# Website::   http://ktechsystems.com
+#
 ##############################################################################
 
 require 'find'
@@ -37,6 +36,4 @@ require_relative 'ppmtogdl/gdldocbuilder'
 require_relative 'ppmtogdl/gdldoc'
 require_relative 'ppmtogdl/ppmtogdlcontroller'
 require_relative 'ppmtogdl/ppmtogdltask'
-
-
 

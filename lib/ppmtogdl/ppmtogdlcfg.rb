@@ -9,12 +9,7 @@
 
 require 'ktcommon/ktcfg'
 
-##############################################################################
-# Everything is contained in Module PpmToGdl
 module PpmToGdl
-
-  ##########################################################################
-  # PpmToGdlCfg class reads configuration files.
   class PpmToGdlCfg < KtCfg::CfgFile
 
     attr_accessor :cfg
