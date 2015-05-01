@@ -3,8 +3,7 @@
 # Purpose:: Build tasks for PpmToGdl application
 #
 # Author::    Jeff McAffee 03/07/2010
-# Copyright:: Copyright (c) 2010, kTech Systems LLC. All rights reserved.
-# Website::   http://ktechsystems.com
+#
 ######################################################################################
 
 require 'rubygems'
