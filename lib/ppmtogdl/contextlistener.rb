@@ -6,8 +6,6 @@
 #
 
 require 'rexml/streamlistener'
-require 'ppmcontext'
-require 'ppmcontextobjs'
 require 'xmlutils/listener'
 
 include REXML

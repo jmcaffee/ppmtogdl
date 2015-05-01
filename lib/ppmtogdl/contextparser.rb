@@ -8,7 +8,6 @@
 require 'rexml/document'
 require 'rexml/streamlistener'
 require 'xmlutils/dumplistener'
-require 'contextlistener'
 
 
 ##############################################################################

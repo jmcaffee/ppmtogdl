@@ -5,9 +5,7 @@
 #	
 #
 
-require 'contextparser'
 require 'xmlutils/ruleparser'
-require 'ppmtogdl/gdldoc'
 require 'xmlutils/lineparser'
 
 

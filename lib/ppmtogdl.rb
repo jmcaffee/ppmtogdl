@@ -26,10 +26,17 @@ $LOG.info "Logging started for PpmToGdl library."
 $LOG.info "**********************************************************************"
 
 
-class_files = File.join( File.dirname(__FILE__), 'ppmtogdl', '*.rb')
-$: << File.join( File.dirname(__FILE__), 'ppmtogdl')  # Add directory to the include file array.
-Dir.glob(class_files) do | class_file |
-    require class_file[/\w+\.rb$/]
-end
+require_relative 'ppmtogdl/version'
+
+require_relative 'ppmtogdl/ppmcontextobjs'
+require_relative 'ppmtogdl/ppmcontext'
+require_relative 'ppmtogdl/ppmtogdlcfg'
+require_relative 'ppmtogdl/contextlistener'
+require_relative 'ppmtogdl/contextparser'
+require_relative 'ppmtogdl/gdldocbuilder'
+require_relative 'ppmtogdl/gdldoc'
+require_relative 'ppmtogdl/ppmtogdlcontroller'
+require_relative 'ppmtogdl/ppmtogdltask'
+
 
 
