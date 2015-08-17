@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{PpmToGdl generates GDL PPM definitions from a PrimaryParameters.xml file.}
   spec.summary       = %q{GDL PPM Generator Utility}
   spec.homepage      = ""
-  spec.license       = "Mine"
+  spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -21,8 +21,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "flexmock"
+
   #spec.add_runtime_dependency "win32ole"
   spec.add_runtime_dependency "nokogiri"
-  spec.add_runtime_dependency "ktcommon"
+  spec.add_runtime_dependency "ktcommon", "~> 0.0.7"
   spec.add_runtime_dependency "xmlutils"
 end
